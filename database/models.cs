@@ -50,7 +50,7 @@ public class Ticket
     }
 }
 
-class TimeSlot
+public class TimeSlot
 {
     public int id { get; set; }
     public DateTime startTime { get; set; }
@@ -69,7 +69,7 @@ class TimeSlot
     }
 }
 
-class Part 
+public class Part 
 {
     public int id { get; set; }
     public string name { get; set; }
