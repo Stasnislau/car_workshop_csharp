@@ -1,9 +1,11 @@
-using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-[ApiController]
-[Route("api/[controller]")]
+using car_workshop_csharp.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-public class EmployeeController : ControllerBase
+namespace car_workshop_csharp.Controllers;
+
+public class EmployeeController : Controller
 {
     private readonly EmployeeService _employeeService;
 
@@ -12,18 +14,9 @@ public class EmployeeController : ControllerBase
         _employeeService = employeeService;
     }
 
-    [HttpGet]
-    public async Task<OkObjectResult> GetEmployees()
+    public IActionResult Index()
     {
-        try 
-        {
-            var employees = await _employeeService.GetEmployees();
-            return Ok(employees);
-        }
-        catch (Exception e)
-        {
-            return (OkObjectResult)StatusCode(500, e.Message);
-        }
+        return View();
     }
-
 }
+

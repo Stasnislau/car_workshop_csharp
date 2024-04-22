@@ -13,4 +13,9 @@ public class EmployeeService
     {
         return await _context.Employees.ToListAsync();
     }
+
+    public async Task<Employee> GetEmployee(int id)
+    {
+        return await _context.Employees.FirstOrDefaultAsync(employee => employee.id == id);
+    }
 }

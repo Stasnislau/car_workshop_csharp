@@ -37,6 +37,7 @@ public class ExceptionMiddleware
             statusCode = (exception as CustomException).StatusCode;
         }
         context.Response.StatusCode = statusCode;
+        Console.WriteLine(exception.Message);
         await context.Response.WriteAsJsonAsync(errorResponse);
     }
 }
