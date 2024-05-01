@@ -2,7 +2,21 @@
     ViewData["Title"] = "Employee Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Employee Page</h1>
-    <p>Let's pretend this page containes something of interest</p>
+<h1 class="display-4 text-center">Employee Page</h1>
+
+
+<select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeList">
+    <option value="">-- Select Employee --</option>
+</select>
+
+<div class="flex-row justify-content-between d-flex">
+    <button class="btn btn-primary" onclick="
+        window.location.href = '@Url.Action("Create", "Employee")';
+    ">Create Employee</button>
+    <button class="btn btn-primary" onclick="
+        window.location.href = '@Url.Action("Edit", "Employee")/' + $('#EmployeeId').val();
+    ">Edit Employee</button>
+    <button class="btn btn-primary" onclick="
+        window.location.href = '@Url.Action("Delete", "Employee")/' + $('#EmployeeId').val();
+    ">Delete Employee</button>
 </div>

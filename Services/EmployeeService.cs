@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Workshop.Models;
+
 
 public class EmployeeService
 {
@@ -16,6 +18,22 @@ public class EmployeeService
 
     public async Task<Employee> GetEmployee(int id)
     {
-        return await _context.Employees.FirstOrDefaultAsync(employee => employee.id == id);
+        return await _context.Employees.FirstOrDefaultAsync(employee => employee.Id == id);
+    }
+
+    public async Task AddEmployee(AddEmployeeViewModel employee)
+    {
+        _context.Employees.Add(new Employee
+        {
+            Name = employee.Name,
+            HourlyRate = employee.HourlyRate
+        });
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateEmployee(Employee employee)
+    {
+        _context.Employees.Update(employee);
+        await _context.SaveChangesAsync();
     }
 }
