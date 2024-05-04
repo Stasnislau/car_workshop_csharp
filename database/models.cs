@@ -3,6 +3,9 @@ public class Employee
     public int Id { get; set; }
     public required string Name { get; set; }
     public int HourlyRate { get; set; }
+
+    public List<Ticket> Tickets { get; set; }
+    
 }
 
 public class Ticket 
@@ -27,6 +30,12 @@ public class Ticket
 
     public float PricePaid { get; set; }
 
+    public List<TimeSlot> TimeSlots { get; set; }
+
+    public List<Part> Parts { get; set; }
+
+    public Employee Employee { get; set; }
+
 
 }
 
@@ -38,6 +47,10 @@ public class TimeSlot
     public int EmployeeId { get; set; }
 
     public int TicketId { get; set; }
+
+    public Ticket Ticket { get; set; }
+
+    public Employee Employee { get; set; }
 
 }
 
@@ -53,6 +66,8 @@ public class Part
     public float TotalPrice { get; set; }
 
     public int TicketId { get; set; }
+
+    public Ticket Ticket { get; set; }
 
 }
 

@@ -15,19 +15,20 @@ public class EmployeeController : Controller
         _employeeService = employeeService;
     }
 
-    [HttpGet]
-    public IActionResult Index()
+    [HttpGet("/employee")]
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var listOfEmployees = await _employeeService.GetEmployees();
+        return View(listOfEmployees);
     }
 
-    [HttpGet]
+    [HttpGet("/employee/create")]
     public IActionResult Create()
     {
         return View();
     }
 
-    [HttpPost]
+    [HttpPost("/employee/create")]
     public async Task<IActionResult> Create(AddEmployeeViewModel employee)
     {
         if (ModelState.IsValid)
