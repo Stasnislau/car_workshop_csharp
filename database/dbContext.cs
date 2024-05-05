@@ -39,11 +39,6 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Employee>().Property(e => e.Name).IsRequired();
         modelBuilder.Entity<Employee>().Property(e => e.HourlyRate).IsRequired();
-
-        
-
-        
-
     }
 
 

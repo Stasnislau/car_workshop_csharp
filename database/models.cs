@@ -2,7 +2,7 @@ public class Employee
 {
     public int Id { get; set; }
     public required string Name { get; set; }
-    public int HourlyRate { get; set; }
+    public float HourlyRate { get; set; }
 
     public List<Ticket> Tickets { get; set; }
     
