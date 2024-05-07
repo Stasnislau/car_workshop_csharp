@@ -33,9 +33,6 @@ public class EmployeeController : Controller
     {
         try
         {
-            Console.WriteLine("Employee Zashlo - " + ModelState.IsValid);
-
-            Console.WriteLine(employee.Name + " " + employee.HourlyRate);
             if (ModelState.IsValid)
             {
                 await _employeeService.AddEmployee(employee);
