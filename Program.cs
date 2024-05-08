@@ -1,22 +1,27 @@
+using System.Configuration;
+using car_workshop_csharp;
+using car_workshop_csharp.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<EmployeeService>();
-builder.Services.AddControllersWithViews().AddViewOptions(options =>
-    {
-        options.HtmlHelperOptions.ClientValidationEnabled = true;
-    });
+builder.Services.AddControllersWithViews();
 
+builder.Services.AddRazorPages();
 
-// Add ApplicationDbContext to the services
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders();
+
 var app = builder.Build();
 
-
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -24,25 +29,22 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseMiddleware<ExceptionMiddleware>();
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapRazorPages();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapControllerRoute(
-    name: "employee",
-    pattern: "{controller=Employee}/{action=Index}/{id?}");
-
-
-app.UseAuthorization();
-
+// app.MapControllerRoute(
+//     name: "default",
+//     pattern: "{controller=Account}/{action=Index}/{id?}");
 
 
 app.Run();
