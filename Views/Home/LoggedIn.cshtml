@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .custom-btn {
+        transition: transform 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+    .custom-btn:focus {
+        outline: none;
+    }
+    .custom-btn::after {
+        content: attr(data-hover-text);
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    .custom-btn:hover {
+        transform: scale(1.05);
+    }
+    .custom-btn:hover::after {
+        opacity: 1;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>You are logged in. Please select an option below:</p>
+            <div class="flex-row justify-content-between d-flex pt-4">
+                <button class=" custom-btn" style="width:40%;" data-hover-text="Employee"
+                    onclick="window.location.href = '@Url.Action("Index", "Employee")';">
+                    <img src="~/assets/employee.jpg" alt="employee" style="height:100%;width:100%" />
+                </button>
+                <button class=" custom-btn" style="width:40%;" data-hover-text="Tickets"
+                    onclick="window.location.href = '@Url.Action("Index", "Ticket")';">
+                    <img src="~/assets/ticket.jpg" alt="service" style="height:100%;width:100%" />
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
