@@ -13,6 +13,7 @@ namespace  car_workshop_csharp.Models
     public class ApplicationUser : IdentityUser
     {
         public Employee Employee { get; set; }
+        
     }
     public class Employee
     {
@@ -20,8 +21,13 @@ namespace  car_workshop_csharp.Models
         public string Name { get; set; }
         public decimal HourlyRate { get; set; }
 
+        public string UserId { get; set; }
+
         public List<Ticket> Tickets { get; set; }
         public List<TimeSlot> TimeSlots { get; set; }
+
+        public ApplicationUser User { get; set; }
+        
     }
 
     public class Ticket

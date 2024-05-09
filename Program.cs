@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
@@ -21,6 +23,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    await DbInitializer.InitializeAsync(scope);
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -42,9 +48,9 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-// app.MapControllerRoute(
-//     name: "default",
-//     pattern: "{controller=Account}/{action=Index}/{id?}");
 
 
 app.Run();
+
+
+

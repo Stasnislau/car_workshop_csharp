@@ -45,7 +45,6 @@ public class DbInitializer
             new ApplicationUser
             {
                 UserName = "admin",
-                Email = "admin@gmail.com",
                 Employee = new Employee
                 {
                     Name = "Admin",
@@ -55,7 +54,6 @@ public class DbInitializer
             new ApplicationUser
             {
                 UserName = "rab1",
-                Email = "rab2@gmail.com",
                 Employee = new Employee
                 {
                     Name = "Akim",
@@ -65,7 +63,6 @@ public class DbInitializer
             new ApplicationUser
             {
                 UserName = "rab2",
-                Email = "rab1@gmail.com",
                 Employee = new Employee
                 {
                     Name = "Fiodar",
@@ -76,10 +73,10 @@ public class DbInitializer
 
         foreach (var user in users)
         {
-            var existingUser = await userManager.FindByEmailAsync(user.Email);
+            var existingUser = await userManager.FindByNameAsync(user.UserName);
             if (existingUser == null)
             {
-                var createUserResult = await userManager.CreateAsync(user, "P@ssw0rd123!");
+                var createUserResult = await userManager.CreateAsync(user, "123ZaZ!");
                 if (createUserResult.Succeeded)
                 {
                     if (user.UserName == "admin")
@@ -93,8 +90,9 @@ public class DbInitializer
 
     private static async Task AssignAdminRole(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
-        var adminRole = await roleManager.FindByNameAsync("Admin");
-        var adminUser = await userManager.FindByEmailAsync("admin@gmail.com");
+        var adminRole = await roleManager.FindByNameAsync("admin");
+        var adminUser = await userManager.FindByNameAsync("admin");
+       
 
         if (adminUser != null && adminRole != null && !await userManager.IsInRoleAsync(adminUser, adminRole.Name))
         {

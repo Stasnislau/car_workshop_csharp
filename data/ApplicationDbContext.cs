@@ -20,6 +20,11 @@ namespace car_workshop_csharp
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.Employee)
+                .WithOne(e => e.User)
+                .HasForeignKey<Employee>(e => e.UserId);
+
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.Tickets)
                 .WithOne(t => t.Employee)
@@ -54,7 +59,6 @@ namespace car_workshop_csharp
                 .HasOne(p => p.Ticket)
                 .WithMany(t => t.Parts)
                 .HasForeignKey(p => p.TicketId);
-
 
         }
     }
