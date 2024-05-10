@@ -1,0 +1,56 @@
+@model car_workshop_csharp.Models.Ticket
+
+@{
+    ViewData["Title"] = "Delete Ticket";
+}
+
+<h1>Delete Ticket</h1>
+
+<hr />
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Brand)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Brand)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Model)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Model)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.RegistrationId)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.RegistrationId)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.ProblemDescription)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.ProblemDescription)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Status)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Status)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Employee.Name)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Employee.Name)
+    </dd>
+</dl>
+
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-default">Back to List</a>
+    </div>
+</form>

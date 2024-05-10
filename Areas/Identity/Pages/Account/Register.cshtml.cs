@@ -22,7 +22,7 @@ namespace car_workshop_csharp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        
+
 
         public RegisterModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
@@ -39,6 +39,9 @@ namespace car_workshop_csharp.Areas.Identity.Pages.Account
             public string Username { get; set; }
 
             [Required]
+            public string Name { get; set; }
+
+            [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -51,7 +54,17 @@ namespace car_workshop_csharp.Areas.Identity.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Username };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Username,
+                    
+                    Employee = new Employee
+                    {
+                        Name = Input.Name,
+                        HourlyRate = 0
+                    }
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

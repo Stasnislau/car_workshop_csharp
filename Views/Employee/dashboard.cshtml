@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@model car_workshop_csharp.Models.EmployeeViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Welcome, @Model.Name</h1>
+            <p>Your hourly rate is: $@Model.HourlyRate</p>
+            <h2>Your Schedule</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time Slot</th>
+                        <th>Ticket</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.TimeSlots.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="3">No time slots available</td>
+                        </tr>
+                    }
+                    else
+                    {
+
+                        @foreach (var timeSlot in Model.TimeSlots)
+                        {
+                            <tr>
+                                <td>@timeSlot.StartTime.ToShortDateString()</td>
+                                <td>@timeSlot.StartTime.ToShortTimeString() - @timeSlot.EndTime.ToShortTimeString()</td>
+                                <td>
+                                    @if (timeSlot.Ticket != null)
+                                    {
+                                        <a asp-action="Details" asp-controller="Ticket"
+                                            asp-route-id="@timeSlot.Ticket.Id">@timeSlot.Ticket.RegistrationId</a>
+                                    }
+                                    else
+                                    {
+                                        <span>No ticket assigned</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -23,17 +23,26 @@ namespace car_workshop_csharp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            // exclude Admin user
             var employees = _context.Employees.Include(e => e.User).ToList().Where(e => e.User.UserName != "admin").ToList();
             return View(employees);
         }
 
-        [Authorize(Roles = "Employee")]
+        [Authorize()]
         public async Task<IActionResult> Dashboard()
         {
             var user = await _userManager.GetUserAsync(User);
             var employee = _context.Employees.FirstOrDefault(e => e.UserId == user.Id);
-            return View(employee);
+            var Tickets = _context.Tickets.Where(t => t.EmployeeId == employee.Id).ToList();
+            var TimeSlots = _context.TimeSlots.Where(ts => ts.EmployeeId == employee.Id).ToList();
+
+            var employeeViewModel = new EmployeeViewModel
+            {
+                Name = employee.Name,
+                HourlyRate = employee.HourlyRate,
+                Tickets = Tickets,
+                TimeSlots = TimeSlots
+            };
+            return View(employeeViewModel);
         }
 
         [Authorize(Roles = "Admin")]
@@ -103,6 +112,7 @@ namespace car_workshop_csharp.Controllers
         {
             var employee = await _context.Employees.FindAsync(id);
             _context.Employees.Remove(employee);
+            _context.Users.Remove(employee.User);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
