@@ -1,53 +1,141 @@
-
-@model car_workshop_csharp.Models.TicketViewModel
+@model car_workshop_csharp.Models.ExtendedTicketDTO
 
 @{
-    ViewData["Title"] = "Edit Ticket";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Edit Ticket</h1>
+<h1>Details</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Brand" class="control-label"></label>
-                <input asp-for="Brand" class="form-control" />
-                <span asp-validation-for="Brand" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control" />
-                <span asp-validation-for="Model" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RegistrationId" class="control-label"></label>
-                <input asp-for="RegistrationId" class="form-control" />
-                <span asp-validation-for="RegistrationId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label  class="control-label">Problem Description</label>
-                <input asp-for="ProblemDescription" class="form-control" />
-                <span asp-validation-for="ProblemDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                </select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div>
+    <h4>Ticket</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Brand)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Brand)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt class="col-sm-2">
+            Registration ID
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RegistrationId)
+        </dd>
+        <dt class="col-sm-2">
+            Problem Description
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProblemDescription)
+        </dd>
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            Employee's Name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Total Price
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+    </dl>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<div>
+    <h4>Parts</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Total Price
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var part in Model.Parts)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => part.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => part.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => part.UnitPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => part.TotalPrice)
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-controller="Part" asp-route-id="@part.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Add" asp-controller="Part" class="btn btn-primary" asp-route-id="@Model.Id">Add Part</a>
+</div>
+
+<div>
+    <h4>Time Slots</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Start Time
+                </th>
+                <th>
+                    End Time
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var timeSlot in Model.TimeSlots)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => timeSlot.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => timeSlot.EndTime)
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-controller="TimeSlot" asp-route-id="@timeSlot.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

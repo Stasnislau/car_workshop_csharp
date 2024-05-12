@@ -47,7 +47,6 @@ namespace car_workshop_csharp.Controllers
         }
 
         [HttpGet]
-        [Authorize()]
         public IActionResult Create()
         {
             var employees = _context.Employees.ToList();
@@ -58,7 +57,6 @@ namespace car_workshop_csharp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize()]
         public async Task<IActionResult> Create([Bind("Brand,Model,RegistrationId,ProblemDescription,Status")] TicketDTO ticket)
         {
 
@@ -91,7 +89,6 @@ namespace car_workshop_csharp.Controllers
         }
 
         [HttpGet]
-        [Authorize()]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -131,11 +128,9 @@ namespace car_workshop_csharp.Controllers
         // POST: Tickets/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize()]
         public async Task<IActionResult> Edit(int id, TicketDTO ticketDTO)
         {
-            
-            ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(e => Console.WriteLine(e.ErrorMessage));
+
             if (ModelState.IsValid)
             {
                 try
@@ -175,10 +170,30 @@ namespace car_workshop_csharp.Controllers
             return View(ticketDTO);
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ticket = await _context.Tickets
+                .Include(t => t.Employee)
+                .Include(t => t.Parts)
+                .Include(t => t.TimeSlots)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+            var ticketDTO = new ExtendedTicketDTO(ticket);
+            return View(ticketDTO);
+        }
+
 
         // GET: Tickets/Delete/5
         [HttpGet]
-        [Authorize()]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -202,22 +217,17 @@ namespace car_workshop_csharp.Controllers
             return View(ticket);
         }
 
-        // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize()]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var ticket = await _context.Tickets.Include(t => t.Parts).Include(t => t.TimeSlots).FirstOrDefaultAsync(m => m.Id == id);
             if (ticket != null)
             {
-                // Delete the associated TimeSlots
                 _context.TimeSlots.RemoveRange(ticket.TimeSlots);
 
-                // Delete the associated Parts
                 _context.Parts.RemoveRange(ticket.Parts);
 
-                // Delete the ticket
                 _context.Tickets.Remove(ticket);
 
                 await _context.SaveChangesAsync();

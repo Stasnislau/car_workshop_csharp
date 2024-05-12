@@ -110,14 +110,24 @@ namespace car_workshop_csharp.Models
         public string Status { get; set; }
     }
 
-    public class ExtendedTicketDTO
+    public class ExtendedTicketDTO : Ticket
     {
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public string RegistrationId { get; set; }
-        public string ProblemDescription { get; set; }
-        public string Status { get; set; }
+        public decimal TotalPrice { get; set; }
 
+        public ExtendedTicketDTO(Ticket ticket)
+        {
+            Id = ticket.Id;
+            Brand = ticket.Brand;
+            Model = ticket.Model;
+            RegistrationId = ticket.RegistrationId;
+            ProblemDescription = ticket.ProblemDescription;
+            Status = ticket.Status;
+            EmployeeId = ticket.EmployeeId;
+            TimeSlots = ticket.TimeSlots;
+            Parts = ticket.Parts;
+            Employee = ticket.Employee;
+            TotalPrice = ticket.Parts.Sum(p => p.TotalPrice) + ticket.TimeSlots.Sum(ts => (ts.EndTime - ts.StartTime).Hours * ticket.Employee.HourlyRate);
+        }
     }
 
     public class EdtiTicketViewModel
@@ -132,5 +142,13 @@ namespace car_workshop_csharp.Models
         public List<Part> Parts { get; set; }
         public List<TimeSlot> TimeSlots { get; set; }
     }
-}
 
+    public class PartDTO
+    {
+        
+        public string Name { get; set; }
+        public int Amount { get; set; }
+        public decimal UnitPrice { get; set; }
+
+    }
+}

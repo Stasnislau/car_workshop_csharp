@@ -18,9 +18,7 @@
             <th>Registration ID</th>
             <th>Problem Description</th>
             <th>Status</th>
-            <th>Parts</th>
-            <th>Time Slots</th>
-            <th></th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -32,36 +30,6 @@
                 <td>@ticket.RegistrationId</td>
                 <td>@ticket.ProblemDescription</td>
                 <td>@ticket.Status</td>
-                <td>
-                    @if (ticket.Parts != null && ticket.Parts.Count > 0)
-                    {
-                        <ul>
-                            @foreach (var part in ticket.Parts)
-                            {
-                                <li>@part.Name - @part.Amount x @part.UnitPrice = @part.TotalPrice</li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <p>No parts added</p>
-                    }
-                </td>
-                <td>
-                    @if (ticket.TimeSlots != null && ticket.TimeSlots.Count > 0)
-                    {
-                        <ul>
-                            @foreach (var timeSlot in ticket.TimeSlots)
-                            {
-                                <li>@timeSlot.StartTime - @timeSlot.EndTime</li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <p>No time slots added</p>
-                    }
-                </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@ticket.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@ticket.Id">Details</a> |
