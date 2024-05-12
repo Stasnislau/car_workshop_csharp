@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using car_workshop_csharp.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace car_workshop_csharp.Models
@@ -145,10 +147,32 @@ namespace car_workshop_csharp.Models
 
     public class PartDTO
     {
-        
+
         public string Name { get; set; }
         public int Amount { get; set; }
         public decimal UnitPrice { get; set; }
 
+    }
+
+    [TimeSlotValidation]
+    public class TimeSlotDTO
+    {
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+    }
+}
+
+public class TimeSlotValidation : ValidationAttribute
+{
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+        var timeSlot = (TimeSlotDTO)validationContext.ObjectInstance;
+
+        if (timeSlot.StartTime >= timeSlot.EndTime)
+        {
+            return new ValidationResult("StartTime must be less than EndTime.");
+        }
+
+        return ValidationResult.Success;
     }
 }

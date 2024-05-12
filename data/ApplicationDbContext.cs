@@ -59,7 +59,6 @@ namespace car_workshop_csharp
                 .HasOne(p => p.Ticket)
                 .WithMany(t => t.Parts)
                 .HasForeignKey(p => p.TicketId);
-
         }
     }
 
